@@ -5,6 +5,7 @@ Unlike its sibling plugin *Simple LDAP Group Authorization* (unreleased), this p
 # Requirements #
 1. A LDAP Directory. **Note:** At this time, this plugin has been only been tested to work against Novell eDirectory.
 2. To be completed.
+
 # Installation #
 # Change History #
 * v0.1.0
