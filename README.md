@@ -9,6 +9,7 @@ Unlike its sibling plugin *Simple LDAP Group Authorization* (unreleased), this p
 # Installation #
 1. Import the plugin as described in the official documentation.
 2. The file you need to import is: authorization_type_plugin_com_fuzziebrian_advldapgroupauth.sql
+
 # Change History #
 * v0.1.0
  * First version.
