@@ -1,5 +1,5 @@
-# Advanced LDAP Group Authorization (Version 2.0) #
-The Advanced LDAP Group Authorization plugin is a convenience tool for enabling access control using LDAP group assignments. 
+# LDAP Group Authorization Helper Plugin (Version 2.0) #
+The LDAP Group Authorization Help Plugin is a convenience tool for enabling access control using LDAP group assignments. 
 
 This is a rewrite of the original plugin and now no longer uses the DBMS_LDAP and DBMS_LDAP_UTL packages for performing LDAP lookups. Instead, the plugin uses the APEX_LDAP API for interacting with the LDAP server. Hence, only a network ACL privilege is needed for the APEX_05000 schema to communicate with the LDAP server.
 
