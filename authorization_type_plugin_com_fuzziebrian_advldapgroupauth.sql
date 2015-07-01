@@ -31,7 +31,7 @@ wwv_flow_api.create_plugin(
  p_id=>wwv_flow_api.id(24705506700305701)
 ,p_plugin_type=>'AUTHORIZATION TYPE'
 ,p_name=>'COM.FUZZIEBRIAN.ADVLDAPGROUPAUTH'
-,p_display_name=>'Advanced LDAP Group Authorization'
+,p_display_name=>'LDAP Group Authorization Helper'
 ,p_supported_ui_types=>'DESKTOP'
 ,p_plsql_code=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
 'FUNCTION is_user_in_group_fun (',
