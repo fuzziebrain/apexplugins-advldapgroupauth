@@ -1,10 +1,12 @@
-# Advanced LDAP Group Authorization #
+# Advanced LDAP Group Authorization (Version 2.0) #
 The Advanced LDAP Group Authorization plugin is a convenience tool for enabling access control using LDAP group assignments. 
 
-Unlike its sibling plugin *Simple LDAP Group Authorization* (unreleased), this plugin uses the DBMS_LDAP and DBMS_LDAP_UTL packages instead of APEX_LDAP. While it is easier to use the functions in APEX_LDAP, the API does not allow subtree searching.
+This is a rewrite of the original plugin and now no longer uses the DBMS_LDAP and DBMS_LDAP_UTL packages for performing LDAP lookups. Instead, the plugin uses the APEX_LDAP API for interacting with the LDAP server. Hence, only a network ACL privilege is needed for the APEX_05000 schema to communicate with the LDAP server.
+
+_Please note that this version requires Oracle Application Express 5.0 or later._
+
 # Requirements #
-1. A LDAP Directory. **Note:** At this time, this plugin has been only been tested to work against Novell eDirectory.
-2. To be completed.
+A LDAP Directory. **Note:** At this time, this plugin has been only been tested to work against Novell eDirectory.
 
 # Installation #
 1. Import the plugin as described in the official documentation.
@@ -16,3 +18,6 @@ Unlike its sibling plugin *Simple LDAP Group Authorization* (unreleased), this p
 * v0.1.1
  * Reorganized the file structure to avoid confusion.
  * Updated README with brief instructions on installing the plugin.
+* v2.0.0-beta
+ * Supports SSL and non-anonymous binds.
+ * No longer relies on DBMS_LDAP and DBMS_LDAP_UTL.
