@@ -1,65 +1,65 @@
-FUNCTION IS_USER_IN_GROUP_FUN(
-    P_AUTHORIZATION IN APEX_PLUGIN.T_AUTHORIZATION,
-    P_PLUGIN        IN APEX_PLUGIN.T_PLUGIN )
-  RETURN APEX_PLUGIN.T_AUTHORIZATION_EXEC_RESULT
+FUNCTION is_user_in_group_fun (
+    p_authorization IN apex_plugin.t_authorization,
+    p_plugin        IN apex_plugin.t_plugin)
+  RETURN apex_plugin.t_authorization_exec_result
 IS
   -- Internal use variables
-  L_SESSION DBMS_LDAP.SESSION;                         -- Session variable
-  L_USER_HD DBMS_LDAP_UTL.HANDLE;                      -- User handle
-  L_GROUP_HD DBMS_LDAP_UTL.HANDLE;                     -- Group handle
-  L_RETVAL PLS_INTEGER;                                -- Return value used frequently
-  L_USER_DN  VARCHAR2(100);                            -- User's DN
-  L_GROUP_DN VARCHAR2(100);                            -- Group's DN
-  L_RES DBMS_LDAP.MESSAGE;                             -- LDAP search result(s)
-  L_ATTR DBMS_LDAP.STRING_COLLECTION;                  -- Attributes to return
-  L_USERNAME  VARCHAR2(30) := P_AUTHORIZATION.USERNAME; -- Current user
-  L_IS_MEMBER BOOLEAN;
-  L_RESULT APEX_PLUGIN.T_AUTHORIZATION_EXEC_RESULT; -- Result object to return
+  l_username           VARCHAR2 (30) := p_authorization.username; -- Current user
+  l_user_search_filter VARCHAR2 (32767) ;
+  l_group_dn           VARCHAR2 (32767) ;           -- Group DN to check
+  l_retval pls_integer := 0;                        -- Return value 1=success,0=fail
+  l_result apex_plugin.t_authorization_exec_result; -- Result object to return
   --
   -- Variables mapped to plugin
-  L_LDAP_HOST      VARCHAR2(100) := P_AUTHORIZATION.ATTRIBUTE_01;
-  L_LDAP_PORT      NUMBER        := P_AUTHORIZATION.ATTRIBUTE_02;
-  L_GROUPNAME      VARCHAR2(30)  := P_AUTHORIZATION.ATTRIBUTE_03;
-  L_USER_S_BASE    VARCHAR2(100) := P_AUTHORIZATION.ATTRIBUTE_04;
-  L_USER_S_FILTER  VARCHAR2(100) := P_AUTHORIZATION.ATTRIBUTE_05;
-  L_GROUP_S_BASE   VARCHAR2(100) := P_AUTHORIZATION.ATTRIBUTE_06;
-  L_GROUP_S_FILTER VARCHAR2(100) := P_AUTHORIZATION.ATTRIBUTE_07;
+  l_host                 VARCHAR2 (200) := p_authorization.attribute_01;
+  l_port                 NUMBER (5)     := p_authorization.attribute_02;
+  l_use_ssl              VARCHAR2 (1)   := p_authorization.attribute_03;
+  l_search_base          VARCHAR2 (200) := p_authorization.attribute_04;
+  l_user_template        VARCHAR2 (200) := p_authorization.attribute_05;
+  l_group_dn_template    VARCHAR2 (200) := p_authorization.attribute_06;
+  l_group_attribute_name VARCHAR2 (100) := p_authorization.attribute_07;
+  l_group_name           VARCHAR2 (100) := p_authorization.attribute_08;
+  l_anonymous_bind       VARCHAR2 (1)   := p_authorization.attribute_09;
+  l_bind_username        VARCHAR2 (100) := p_authorization.attribute_10;
+  l_bind_pass            VARCHAR2 (100) := p_authorization.attribute_11;
+  l_auth_base            VARCHAR2 (200) := p_authorization.attribute_12;
 BEGIN
   --
-  -- Substitute setting user and group names in filters
-  L_USER_S_FILTER  := REPLACE(L_USER_S_FILTER, '%LDAP_USER%', L_USERNAME);
-  L_GROUP_S_FILTER := REPLACE(L_GROUP_S_FILTER, '%LDAP_GROUP%', L_GROUPNAME);
   --
-  -- Initialize LDAP session
-  L_SESSION := DBMS_LDAP.INIT(L_LDAP_HOST, L_LDAP_PORT);
+  l_user_search_filter := apex_escape.ldap_search_filter (REPLACE (
+  l_user_template, '%LDAP_USER%', l_username)) ;
+  l_group_dn := REPLACE (l_group_dn_template, '%LDAP_GROUP%', l_group_name) ;
   --
-  -- Retrieve all attributes
-  L_ATTR(1) := '*';
   --
-  -- Create user handle
-  L_RETVAL := DBMS_LDAP.SEARCH_S(L_SESSION, L_USER_S_BASE,
-  DBMS_LDAP.SCOPE_SUBTREE, L_USER_S_FILTER, L_ATTR, 0, L_RES);
-  L_USER_DN := DBMS_LDAP.GET_DN(L_SESSION, L_RES);
-  L_RETVAL  := DBMS_LDAP_UTL.CREATE_USER_HANDLE(L_USER_HD,
-  DBMS_LDAP_UTL.TYPE_DN, L_USER_DN);
-  --
-  -- Create group handle
-  L_RETVAL := DBMS_LDAP.SEARCH_S(L_SESSION, L_GROUP_S_BASE,
-  DBMS_LDAP.SCOPE_SUBTREE, L_GROUP_S_FILTER, L_ATTR, 0, L_RES);
-  L_GROUP_DN := DBMS_LDAP.GET_DN(L_SESSION, L_RES);
-  L_RETVAL   := DBMS_LDAP_UTL.CREATE_GROUP_HANDLE(L_GROUP_HD,
-  DBMS_LDAP_UTL.TYPE_DN, L_GROUP_DN);
-  --
-  -- Check group membership
-  L_RETVAL := DBMS_LDAP_UTL.CHECK_GROUP_MEMBERSHIP( L_SESSION, L_USER_HD,
-  L_GROUP_HD, DBMS_LDAP_UTL.DIRECT_MEMBERSHIP );
-  L_IS_MEMBER := L_RETVAL = DBMS_LDAP_UTL.SUCCESS;
-  --
-  -- Clean up resources
-  L_RETVAL := DBMS_LDAP.MSGFREE(L_RES);
-  L_RETVAL := DBMS_LDAP.UNBIND_S(L_SESSION);
+  BEGIN
+    SELECT
+      1
+    INTO
+      l_retval
+    FROM
+      TABLE (apex_ldap.search (
+               p_username         => l_bind_username, 
+               p_pass             => l_bind_pass, 
+               p_auth_base        => l_auth_base, 
+               p_host             => l_host, 
+               p_port             => l_port, 
+               p_use_ssl          => l_use_ssl, 
+               p_search_base      => l_search_base,
+               p_search_filter    => l_user_search_filter, 
+               p_attribute_names  => l_group_attribute_name))
+    WHERE
+      upper (val) = upper (l_group_dn) ;
+  EXCEPTION
+  WHEN no_data_found THEN
+    l_retval := 0;
+  END;
   --
   -- Set and return results
-  L_RESULT.IS_AUTHORIZED := L_IS_MEMBER;
-  RETURN L_RESULT;
-END IS_USER_IN_GROUP_FUN;
+  IF l_retval               = 1 THEN
+    l_result.is_authorized := true;
+  ELSE
+    l_result.is_authorized := false;
+  END IF;
+
+  RETURN l_result;
+END is_user_in_group_fun;
