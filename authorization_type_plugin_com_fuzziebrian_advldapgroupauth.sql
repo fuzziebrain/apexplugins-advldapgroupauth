@@ -14,9 +14,9 @@ begin
 wwv_flow_api.import_begin (
  p_version_yyyy_mm_dd=>'2013.01.01'
 ,p_release=>'5.0.0.00.31'
-,p_default_workspace_id=>4175304812635751
-,p_default_application_id=>231
-,p_default_owner=>'BRONCO'
+,p_default_workspace_id=>1820945748556170
+,p_default_application_id=>101
+,p_default_owner=>'ALPHA'
 );
 end;
 /
@@ -28,7 +28,7 @@ end;
 prompt --application/shared_components/plugins/authorization_type/com_fuzziebrian_advldapgroupauth
 begin
 wwv_flow_api.create_plugin(
- p_id=>wwv_flow_api.id(24705506700305701)
+ p_id=>wwv_flow_api.id(30186009460141025)
 ,p_plugin_type=>'AUTHORIZATION TYPE'
 ,p_name=>'COM.FUZZIEBRIAN.ADVLDAPGROUPAUTH'
 ,p_display_name=>'LDAP Group Authorization Helper'
@@ -102,12 +102,12 @@ wwv_flow_api.create_plugin(
 ,p_execution_function=>'is_user_in_group_fun'
 ,p_substitute_attributes=>true
 ,p_subscribe_plugin_settings=>true
-,p_version_identifier=>'2.0.0-beta'
+,p_version_identifier=>'2.0.0-beta.1'
 ,p_about_url=>'http://fuzziebrain.com/content/id/246'
 );
 wwv_flow_api.create_plugin_attribute(
- p_id=>wwv_flow_api.id(24705778514305706)
-,p_plugin_id=>wwv_flow_api.id(24705506700305701)
+ p_id=>wwv_flow_api.id(30186281274141030)
+,p_plugin_id=>wwv_flow_api.id(30186009460141025)
 ,p_attribute_scope=>'COMPONENT'
 ,p_attribute_sequence=>1
 ,p_display_sequence=>10
@@ -120,8 +120,8 @@ wwv_flow_api.create_plugin_attribute(
 ,p_help_text=>'<p>Please enter the hostname/IP address of the LDAP server.</p>'
 );
 wwv_flow_api.create_plugin_attribute(
- p_id=>wwv_flow_api.id(24706192122305707)
-,p_plugin_id=>wwv_flow_api.id(24705506700305701)
+ p_id=>wwv_flow_api.id(30186694882141031)
+,p_plugin_id=>wwv_flow_api.id(30186009460141025)
 ,p_attribute_scope=>'COMPONENT'
 ,p_attribute_sequence=>2
 ,p_display_sequence=>20
@@ -138,8 +138,8 @@ wwv_flow_api.create_plugin_attribute(
 ,p_help_text=>'<p>Please enter the port number of the LDAP server.</p>'
 );
 wwv_flow_api.create_plugin_attribute(
- p_id=>wwv_flow_api.id(24706588244305708)
-,p_plugin_id=>wwv_flow_api.id(24705506700305701)
+ p_id=>wwv_flow_api.id(30187091004141032)
+,p_plugin_id=>wwv_flow_api.id(30186009460141025)
 ,p_attribute_scope=>'COMPONENT'
 ,p_attribute_sequence=>3
 ,p_display_sequence=>30
@@ -151,8 +151,8 @@ wwv_flow_api.create_plugin_attribute(
 ,p_help_text=>'<p>Indicate if SSL is to be used when communicating with the LDAP server.</p>'
 );
 wwv_flow_api.create_plugin_attribute(
- p_id=>wwv_flow_api.id(24706971316305708)
-,p_plugin_id=>wwv_flow_api.id(24705506700305701)
+ p_id=>wwv_flow_api.id(30187474076141032)
+,p_plugin_id=>wwv_flow_api.id(30186009460141025)
 ,p_attribute_scope=>'COMPONENT'
 ,p_attribute_sequence=>4
 ,p_display_sequence=>80
@@ -165,8 +165,8 @@ wwv_flow_api.create_plugin_attribute(
 ,p_help_text=>'<p>Please enter the LDAP search base.</p>'
 );
 wwv_flow_api.create_plugin_attribute(
- p_id=>wwv_flow_api.id(24707397115305708)
-,p_plugin_id=>wwv_flow_api.id(24705506700305701)
+ p_id=>wwv_flow_api.id(30187899875141032)
+,p_plugin_id=>wwv_flow_api.id(30186009460141025)
 ,p_attribute_scope=>'COMPONENT'
 ,p_attribute_sequence=>5
 ,p_display_sequence=>90
@@ -182,8 +182,8 @@ wwv_flow_api.create_plugin_attribute(
 '<p><em>Change the default filter if necessary, otherwise, this filter should work for most cases. The %LDAP_USER% is the place holder for the APP_USER (user currently logged on).</em></p>'))
 );
 wwv_flow_api.create_plugin_attribute(
- p_id=>wwv_flow_api.id(24707784591305708)
-,p_plugin_id=>wwv_flow_api.id(24705506700305701)
+ p_id=>wwv_flow_api.id(30188287351141032)
+,p_plugin_id=>wwv_flow_api.id(30186009460141025)
 ,p_attribute_scope=>'COMPONENT'
 ,p_attribute_sequence=>6
 ,p_display_sequence=>100
@@ -197,8 +197,8 @@ wwv_flow_api.create_plugin_attribute(
 ||'horization check result is determined using the Group DN.</p>'
 );
 wwv_flow_api.create_plugin_attribute(
- p_id=>wwv_flow_api.id(24708157763305708)
-,p_plugin_id=>wwv_flow_api.id(24705506700305701)
+ p_id=>wwv_flow_api.id(30188660523141032)
+,p_plugin_id=>wwv_flow_api.id(30186009460141025)
 ,p_attribute_scope=>'COMPONENT'
 ,p_attribute_sequence=>7
 ,p_display_sequence=>110
@@ -215,22 +215,22 @@ wwv_flow_api.create_plugin_attribute(
 ,p_help_text=>'<p>Please enter the attribute name to identify group memberships.</p>'
 );
 wwv_flow_api.create_plugin_attribute(
- p_id=>wwv_flow_api.id(24715869448323328)
-,p_plugin_id=>wwv_flow_api.id(24705506700305701)
+ p_id=>wwv_flow_api.id(30196372208158652)
+,p_plugin_id=>wwv_flow_api.id(30186009460141025)
 ,p_attribute_scope=>'COMPONENT'
 ,p_attribute_sequence=>8
 ,p_display_sequence=>120
 ,p_prompt=>'Group Name'
 ,p_attribute_type=>'TEXT'
-,p_is_required=>false
+,p_is_required=>true
 ,p_max_length=>100
 ,p_is_translatable=>false
 ,p_examples=>'Users'
 ,p_help_text=>'The name of the group that the user must belong to.'
 );
 wwv_flow_api.create_plugin_attribute(
- p_id=>wwv_flow_api.id(24725626586744309)
-,p_plugin_id=>wwv_flow_api.id(24705506700305701)
+ p_id=>wwv_flow_api.id(30206129346579633)
+,p_plugin_id=>wwv_flow_api.id(30186009460141025)
 ,p_attribute_scope=>'COMPONENT'
 ,p_attribute_sequence=>9
 ,p_display_sequence=>40
@@ -242,8 +242,8 @@ wwv_flow_api.create_plugin_attribute(
 ,p_help_text=>'<p>Please indicate whether to bind to the LDAP server anonymously. If this is set to <em>No</em>, then please provide the <strong>Bind Username</strong>, <strong>Bind User Password</strong> and <strong>Authbase for Bind User</strong>.</p>'
 );
 wwv_flow_api.create_plugin_attribute(
- p_id=>wwv_flow_api.id(24726543373754584)
-,p_plugin_id=>wwv_flow_api.id(24705506700305701)
+ p_id=>wwv_flow_api.id(30207046133589908)
+,p_plugin_id=>wwv_flow_api.id(30186009460141025)
 ,p_attribute_scope=>'COMPONENT'
 ,p_attribute_sequence=>10
 ,p_display_sequence=>50
@@ -252,14 +252,14 @@ wwv_flow_api.create_plugin_attribute(
 ,p_is_required=>true
 ,p_max_length=>100
 ,p_is_translatable=>false
-,p_depending_on_attribute_id=>wwv_flow_api.id(24725626586744309)
+,p_depending_on_attribute_id=>wwv_flow_api.id(30206129346579633)
 ,p_depending_on_condition_type=>'EQUALS'
 ,p_depending_on_expression=>'N'
 ,p_help_text=>'<p>Please enter the username of the user that will be used for binding to the LDAP server.</p>'
 );
 wwv_flow_api.create_plugin_attribute(
- p_id=>wwv_flow_api.id(24727536804773444)
-,p_plugin_id=>wwv_flow_api.id(24705506700305701)
+ p_id=>wwv_flow_api.id(30208039564608768)
+,p_plugin_id=>wwv_flow_api.id(30186009460141025)
 ,p_attribute_scope=>'COMPONENT'
 ,p_attribute_sequence=>11
 ,p_display_sequence=>60
@@ -268,23 +268,23 @@ wwv_flow_api.create_plugin_attribute(
 ,p_is_required=>true
 ,p_max_length=>100
 ,p_is_translatable=>false
-,p_depending_on_attribute_id=>wwv_flow_api.id(24725626586744309)
+,p_depending_on_attribute_id=>wwv_flow_api.id(30206129346579633)
 ,p_depending_on_condition_type=>'EQUALS'
 ,p_depending_on_expression=>'N'
 ,p_help_text=>'<p>Please provide the password for the user used for binding to the LDAP server.</p>'
 );
 wwv_flow_api.create_plugin_attribute(
- p_id=>wwv_flow_api.id(24728096248782467)
-,p_plugin_id=>wwv_flow_api.id(24705506700305701)
+ p_id=>wwv_flow_api.id(30208599008617791)
+,p_plugin_id=>wwv_flow_api.id(30186009460141025)
 ,p_attribute_scope=>'COMPONENT'
 ,p_attribute_sequence=>12
 ,p_display_sequence=>60
 ,p_prompt=>'Authentication Base'
 ,p_attribute_type=>'TEXT'
-,p_is_required=>true
+,p_is_required=>false
 ,p_max_length=>200
 ,p_is_translatable=>false
-,p_depending_on_attribute_id=>wwv_flow_api.id(24725626586744309)
+,p_depending_on_attribute_id=>wwv_flow_api.id(30206129346579633)
 ,p_depending_on_condition_type=>'EQUALS'
 ,p_depending_on_expression=>'N'
 ,p_examples=>'ou=People,dc=fuzziebrain,dc=com'
