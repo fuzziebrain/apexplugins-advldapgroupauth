@@ -176,7 +176,11 @@ wwv_flow_api.create_plugin_attribute(
 ,p_default_value=>'uid=%LDAP_USER%'
 ,p_max_length=>200
 ,p_is_translatable=>false
-,p_examples=>'uid=%LDAP_USER%'
+,p_examples=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
+'<ul>',
+'  <li>uid=%LDAP_USER%</li>',
+'  <li>sAMAccountName=%LDAP_USER% <em>(Active Directory)</em></li>',
+'</ul>'))
 ,p_help_text=>wwv_flow_utilities.join(wwv_flow_t_varchar2(
 '<p>Please enter the search filter template for searching a user by username.</p>',
 '<p><em>Change the default filter if necessary, otherwise, this filter should work for most cases. The %LDAP_USER% is the place holder for the APP_USER (user currently logged on).</em></p>'))
